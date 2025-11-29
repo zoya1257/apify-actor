@@ -101,7 +101,6 @@ Actor.main(async () => {
         maxRequestsPerCrawl: 20,
         requestHandlerTimeoutSecs: 1800,
         navigationTimeoutSecs: 60,
-        useSystemDataDirectory: true,
         launchContext: {
             launcher: puppeteer,
             launchOptions: { headless: true },
