@@ -101,7 +101,7 @@ const requestHandler = async ({ page, request }) => {
 
     // ---------- Failed Request Handler ----------
 const failedRequestHandler = async ({ request, page }) => {
-    console.log(Request failed: ${request.url});
+    console.log(`Request failed: ${request.url}`);
     if (page) {
         await screenshotOnError(page, 'failed_request');
     }
