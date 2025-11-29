@@ -1,8 +1,12 @@
 {
+  "actorSpecification": 1,
   "name": "my-first-actor",
+  "title": "My Scraper",
+  "description": "Custom scraper built by Asma.",
   "version": "0.1.0",
   "buildTag": "latest",
   "envVars": [],
   "dockerfile": "./Dockerfile",
+  "readme": "./README.md"
   "nodeVersion": "20"
 }
