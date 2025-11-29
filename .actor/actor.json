@@ -2,10 +2,11 @@
   "actorSpecification": 1,
   "name": "apify-actor",
   "title": "My Scraper",
-  "description": "Custom scraper built by Zoya.",
+  "description": "Custom scraper built by Asma.",
   "version": "0.1.0",
-  "main": "main.js",
+  "main": "src/main.js",
   "buildTag": "latest",
-  "dockerfile": "./Dockerfile",
-  "readme": "./README.md"
+  "build": {
+    "dockerfilePath": "Dockerfile"
+  }
 }
