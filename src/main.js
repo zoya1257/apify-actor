@@ -99,6 +99,13 @@ const requestHandler = async ({ page, request }) => {
         jobs.push(job);
     }
 
+    // ---------- Failed Request Handler ----------
+const failedRequestHandler = async ({ request, page }) => {
+    console.log(Request failed: ${request.url});
+    if (page) {
+        await screenshotOnError(page, 'failed_request');
+    }
+};
     // Pagination Click
     const nextBtn = await page.$('button[aria-label="Next"]');
     if (nextBtn) {
