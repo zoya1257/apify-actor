@@ -1,0 +1,16 @@
+[2025-11-29T06:11:46.454Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:11:59.479Z] Scraper finished, total 0 jobs scraped
+[2025-11-29T06:14:06.125Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:14:20.532Z] Scraper finished, total 0 jobs scraped
+[2025-11-29T06:19:08.851Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:19:57.598Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:20:42.964Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:21:32.312Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:22:17.683Z] Request failed: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:22:21.791Z] Scraper finished, total 0 jobs scraped
+[2025-11-29T06:32:33.160Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:33:21.287Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:34:07.375Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:34:57.065Z] Scraping URL: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:35:41.314Z] Request failed: https://www.linkedin.com/jobs/search/?keywords=DevOps
+[2025-11-29T06:35:45.221Z] Scraper finished, total 0 jobs scraped

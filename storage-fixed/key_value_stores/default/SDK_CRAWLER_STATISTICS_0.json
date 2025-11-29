@@ -1,0 +1,52 @@
+{
+  "requestsFinished": 0,
+  "requestsFailed": 1,
+  "requestsRetries": 1,
+  "requestsFailedPerMinute": 0,
+  "requestsFinishedPerMinute": 0,
+  "requestMinDurationMillis": null,
+  "requestMaxDurationMillis": 0,
+  "requestTotalFailedDurationMillis": 192449,
+  "requestTotalFinishedDurationMillis": 0,
+  "crawlerStartedAt": "2025-11-29T06:59:47.264Z",
+  "crawlerFinishedAt": "2025-11-29T07:12:15.081Z",
+  "statsPersistedAt": "2025-11-29T07:12:15.081Z",
+  "crawlerRuntimeMillis": 748094,
+  "crawlerLastStartTimestamp": 1764399586987,
+  "requestRetryHistogram": [
+    null,
+    null,
+    null,
+    1
+  ],
+  "statsId": 0,
+  "requestAvgFailedDurationMillis": 192449,
+  "requestAvgFinishedDurationMillis": null,
+  "requestTotalDurationMillis": 192449,
+  "requestsTotal": 1,
+  "requestsWithStatusCode": {
+    "200": 4
+  },
+  "errors": {
+    "C:\\Users\\92300\\apify-actor\\node_modules\\@apify\\timeout\\cjs\\index.cjs:64:68": {
+      "missing error code": {
+        "Error": {
+          "requestHandler timed out after 180 seconds.": {
+            "count": 1
+          }
+        }
+      }
+    }
+  },
+  "retryErrors": {
+    "C:\\Users\\92300\\apify-actor\\node_modules\\@apify\\timeout\\cjs\\index.cjs:64:68": {
+      "missing error code": {
+        "Error": {
+          "requestHandler timed out after 180 seconds.": {
+            "count": 3
+          }
+        }
+      }
+    }
+  }
+}

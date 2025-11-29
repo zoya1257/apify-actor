@@ -1,0 +1,8 @@
+{
+  "name": "my-first-actor",
+  "version": "0.1.0",
+  "buildTag": "latest",
+  "envVars": [],
+  "dockerfile": "./Dockerfile",
+  "nodeVersion": "20"
+}

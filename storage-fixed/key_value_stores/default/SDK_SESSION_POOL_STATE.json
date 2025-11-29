@@ -1,0 +1,264 @@
+{
+  "usableSessionsCount": 5,
+  "retiredSessionsCount": 1,
+  "sessions": [
+    {
+      "id": "session_7nyYLNsTfb",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.0",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-29T07:49:48.534Z",
+      "createdAt": "2025-11-29T06:59:48.534Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_mFe6ablnrt",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.0",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "lidc",
+            "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3163:u=1:x=1:i=1764399593:t=1764485993:v=2:sig=AQFSIFIHCx-_mQAUCK-H-QbJevruW-KR\"",
+            "expires": "2025-11-30T06:59:52.449Z",
+            "domain": "linkedin.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T06:59:54.570Z",
+            "lastAccessed": "2025-11-29T07:06:00.904Z"
+          },
+          {
+            "key": "__cf_bm",
+            "value": "Rp.INrt963Y85oI9gNMIbCGz4SBQjfls7zk.k8sSxRs-1764399593-1.0.1.1-D6EVXrPuas06S7KbZ5VR8sxB7uTR2bvh7uYeIrO2ZHRdCDUzB0iei4A5q2QcSyQl4vaHzhDodlGjImYa3_1ZZzG4ownBXvFI055h4T1rtjs",
+            "expires": "2025-11-29T07:29:52.449Z",
+            "domain": "linkedin.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T06:59:54.585Z",
+            "lastAccessed": "2025-11-29T07:06:00.904Z"
+          },
+          {
+            "key": "JSESSIONID",
+            "value": "ajax:5077757531055029038",
+            "expires": "2025-11-29T07:49:54.563Z",
+            "domain": "www.linkedin.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T06:59:54.589Z",
+            "lastAccessed": "2025-11-29T07:06:00.904Z"
+          },
+          {
+            "key": "bcookie",
+            "value": "\"v=2&27d01c03-0612-4b27-8404-60171bceb5cf\"",
+            "expires": "2026-11-29T06:59:52.448Z",
+            "domain": "linkedin.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T06:59:54.590Z",
+            "lastAccessed": "2025-11-29T07:06:00.904Z"
+          },
+          {
+            "key": "bscookie",
+            "value": "\"v=1&20251129065952cbf776cb-f6df-4845-89c7-389ca7611360AQE_trMqPHh-zlTQ_2TbIBxTEBXqLKXk\"",
+            "expires": "2026-11-29T06:59:52.448Z",
+            "domain": "www.linkedin.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T06:59:54.591Z",
+            "lastAccessed": "2025-11-29T07:06:00.903Z"
+          },
+          {
+            "key": "lang",
+            "value": "v=2&lang=en-us",
+            "expires": "2025-11-29T07:49:54.564Z",
+            "domain": "linkedin.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T06:59:54.591Z",
+            "lastAccessed": "2025-11-29T07:06:00.902Z"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-29T07:49:48.544Z",
+      "createdAt": "2025-11-29T06:59:48.544Z",
+      "usageCount": 4,
+      "maxUsageCount": 50,
+      "errorScore": 6
+    },
+    {
+      "id": "session_aHboAO0aAr",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.0",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-29T07:52:54.899Z",
+      "createdAt": "2025-11-29T07:02:54.899Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_gSHq4twtyX",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.0",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-29T07:55:58.588Z",
+      "createdAt": "2025-11-29T07:05:58.588Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_6bLqicS2d1",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.0",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-29T07:59:01.272Z",
+      "createdAt": "2025-11-29T07:09:01.272Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_w6l12hJsaN",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.0",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "lidc",
+            "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3280:u=1:x=1:i=1764400145:t=1764486545:v=2:sig=AQH2OGvUFb55d32_6J5DMX7Y8HSPCqji\"",
+            "expires": "2025-11-30T07:09:05.491Z",
+            "domain": "linkedin.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T07:09:13.700Z",
+            "lastAccessed": "2025-11-29T07:09:13.700Z"
+          },
+          {
+            "key": "__cf_bm",
+            "value": "8fTib2ocySlhAV4P612YMQaeSPwHPTAat9sOc2BnOHA-1764400145-1.0.1.1-ue5l3wM4VKe35IZUrt2vLi1GIPYc8wGrur_uGohMy_23mu6RayKBjjj8P_9sUdUnbGrGxKwonHLPGMqRsKNEBKEOLdRD1.dKPBy4ui8mAmM",
+            "expires": "2025-11-29T07:39:05.491Z",
+            "domain": "linkedin.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T07:09:13.706Z",
+            "lastAccessed": "2025-11-29T07:09:13.706Z"
+          },
+          {
+            "key": "JSESSIONID",
+            "value": "ajax:2242053134263645563",
+            "expires": "2025-11-29T07:59:13.698Z",
+            "domain": "www.linkedin.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T07:09:13.706Z",
+            "lastAccessed": "2025-11-29T07:09:13.706Z"
+          },
+          {
+            "key": "bcookie",
+            "value": "\"v=2&9ad764cf-80b1-4929-8913-9580df66ce0f\"",
+            "expires": "2026-11-29T07:09:05.490Z",
+            "domain": "linkedin.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T07:09:13.706Z",
+            "lastAccessed": "2025-11-29T07:09:13.706Z"
+          },
+          {
+            "key": "bscookie",
+            "value": "\"v=1&202511290709047761ffe3-13f4-42af-8d26-bfee8c1a4bd9AQE_YUVd3tSHYGSxPGLILfQADQsvIIh2\"",
+            "expires": "2026-11-29T07:09:05.491Z",
+            "domain": "www.linkedin.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T07:09:13.707Z",
+            "lastAccessed": "2025-11-29T07:09:13.707Z"
+          },
+          {
+            "key": "lang",
+            "value": "v=2&lang=en-us",
+            "expires": "2025-11-29T07:59:13.698Z",
+            "domain": "linkedin.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": false,
+            "creation": "2025-11-29T07:09:13.707Z",
+            "lastAccessed": "2025-11-29T07:09:13.707Z"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-29T07:59:01.283Z",
+      "createdAt": "2025-11-29T07:09:01.283Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 1
+    }
+  ]
+}

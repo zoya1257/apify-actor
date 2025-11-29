@@ -1,0 +1,52 @@
+{
+  "requestsFinished": 0,
+  "requestsFailed": 1,
+  "requestsRetries": 1,
+  "requestsFailedPerMinute": 0,
+  "requestsFinishedPerMinute": 0,
+  "requestMinDurationMillis": null,
+  "requestMaxDurationMillis": 0,
+  "requestTotalFailedDurationMillis": 49894,
+  "requestTotalFinishedDurationMillis": 0,
+  "crawlerStartedAt": "2025-11-29T06:32:26.791Z",
+  "crawlerFinishedAt": "2025-11-29T06:35:45.166Z",
+  "statsPersistedAt": "2025-11-29T06:35:45.166Z",
+  "crawlerRuntimeMillis": 198657,
+  "crawlerLastStartTimestamp": 1764397946509,
+  "requestRetryHistogram": [
+    null,
+    null,
+    null,
+    1
+  ],
+  "statsId": 0,
+  "requestAvgFailedDurationMillis": 49894,
+  "requestAvgFinishedDurationMillis": null,
+  "requestTotalDurationMillis": 49894,
+  "requestsTotal": 1,
+  "requestsWithStatusCode": {
+    "200": 4
+  },
+  "errors": {
+    "file:///C:/Users/92300/apify-actor/src/main.js:108:11": {
+      "missing error code": {
+        "Error": {
+          "Failed after retries": {
+            "count": 1
+          }
+        }
+      }
+    }
+  },
+  "retryErrors": {
+    "file:///C:/Users/92300/apify-actor/src/main.js:108:11": {
+      "missing error code": {
+        "Error": {
+          "Failed after retries": {
+            "count": 3
+          }
+        }
+      }
+    }
+  }
+}
