@@ -129,7 +129,6 @@ async function runScraper() {
             launcher: puppeteer,
             launchOptions: { headless: true }
         },
-        storageDir: path.resolve('/tmp/crawlee_storage')
     });
 
     await crawler.run(['https://www.linkedin.com/jobs/search/?keywords=DevOps']);
