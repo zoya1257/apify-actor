@@ -4,6 +4,7 @@
   "title": "My Scraper",
   "description": "Custom scraper built by Zoya.",
   "version": "0.1.0",
+  "main": "main.js",
   "buildTag": "latest",
   "dockerfile": "./Dockerfile",
   "readme": "./README.md"
