@@ -1,16 +1,16 @@
-import path from 'path';
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import { Actor } from "apify";
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
 puppeteer.use(StealthPlugin());
 
-import { PuppeteerCrawler } from 'crawlee';
-import fs from 'fs-extra';
-import { Parser as Json2CsvParser } from 'json2csv';
-import XLSX from 'xlsx';
+import { PuppeteerCrawler } from "crawlee";
+import fs from "fs-extra";
+import { Parser as Json2CsvParser } from "json2csv";
+import XLSX from "xlsx";
 
 // ---------- Global ----------
 const jobs = [];
-const date = new Date().toISOString().split('T')[0];
+const date = new Date().toISOString().split("T")[0];
 
 // ---------- Smooth Scroll ----------
 async function smoothScroll(page) {
@@ -32,14 +32,14 @@ async function smoothScroll(page) {
 
 // ---------- Extract Jobs ----------
 async function extractJobDetails(page) {
-    await page.waitForSelector('ul.jobs-search__results-list', { timeout: 15000 });
+    await page.waitForSelector("ul.jobs-search__results-list", { timeout: 15000 });
 
-    return await page.$$eval('ul.jobs-search__results-list li', items =>
+    return await page.$$eval("ul.jobs-search__results-list li", items =>
         items.map(item => ({
-            title: item.querySelector('h3')?.innerText.trim() || '',
-            company: item.querySelector('h4')?.innerText.trim() || '',
-            location: item.querySelector('.job-search-card__location')?.innerText.trim() || '',
-            link: item.querySelector('a')?.href || ''
+            title: item.querySelector("h3")?.innerText.trim() || "",
+            company: item.querySelector("h4")?.innerText.trim() || "",
+            location: item.querySelector(".job-search-card__location")?.innerText.trim() || "",
+            link: item.querySelector("a")?.href || ""
         }))
     );
 }
@@ -47,10 +47,10 @@ async function extractJobDetails(page) {
 // ---------- Job Description ----------
 async function scrapeJobPage(page, job) {
     try {
-        await page.goto(job.link, { waitUntil: 'networkidle2' });
-        await page.waitForSelector('.show-more-less-html__markup', { timeout: 15000 });
+        await page.goto(job.link, { waitUntil: "networkidle2" });
+        await page.waitForSelector(".show-more-less-html__markup", { timeout: 15000 });
 
-        job.description = await page.$eval('.show-more-less-html__markup',
+        job.description = await page.$eval(".show-more-less-html__markup",
             el => el.innerText.trim()
         );
 
@@ -68,7 +68,7 @@ function saveJSON(jobs) {
 }
 
 function saveCSV(jobs) {
-    const fields = ['title', 'company', 'location', 'link', 'description'];
+    const fields = ["title", "company", "location", "link", "description"];
     const parser = new Json2CsvParser({ fields });
     fs.writeFileSync(`jobs_${date}.csv`, parser.parse(jobs));
     console.log("CSV saved.");
@@ -77,7 +77,7 @@ function saveCSV(jobs) {
 function saveExcel(jobs) {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(jobs);
-    XLSX.utils.book_append_sheet(wb, ws, 'Jobs');
+    XLSX.utils.book_append_sheet(wb, ws, "Jobs");
     XLSX.writeFile(wb, `jobs_${date}.xlsx`);
     console.log("Excel saved.");
 }
@@ -95,26 +95,24 @@ const requestHandler = async ({ page, request }) => {
         jobs.push(job);
     }
 
-    // Pagination Click
+    // Pagination
     const nextBtn = await page.$('button[aria-label="Next"]');
     if (nextBtn) {
         await Promise.all([
             nextBtn.click(),
-            page.waitForNavigation({ waitUntil: 'networkidle2' })
+            page.waitForNavigation({ waitUntil: "networkidle2" })
         ]);
     }
 };
 
 // ---------- Failed Request Handler ----------
-const failedRequestHandler = async ({ request, page }) => {
+const failedRequestHandler = async ({ request }) => {
     console.log(`Request failed: ${request.url}`);
-    if (page) {
-        await screenshotOnError(page, 'failed_request');
-    }
 };
 
-// ---------- Run ----------
-async function runScraper() {
+// ---------- RUN AS APIFY ACTOR ----------
+Actor.main(async () => {
+
     const crawler = new PuppeteerCrawler({
         requestHandler,
         failedRequestHandler,
@@ -123,17 +121,17 @@ async function runScraper() {
         navigationTimeoutSecs: 60,
         launchContext: {
             launcher: puppeteer,
-            launchOptions: { headless: true }
+            launchOptions: { headless: true },
         },
+        // 🔥 THIS FIXES STORAGE ERROR 100%
+        storage: await Actor.createStorageClient()
     });
 
-    await crawler.run(['https://www.linkedin.com/jobs/search/?keywords=DevOps']);
+    await crawler.run(["https://www.linkedin.com/jobs/search/?keywords=DevOps"]);
 
     saveJSON(jobs);
     saveCSV(jobs);
     saveExcel(jobs);
 
     console.log(`DONE! Total jobs scraped = ${jobs.length}`);
-}
-
-runScraper();
+});
