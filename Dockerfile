@@ -1,4 +1,4 @@
-FROM apify/actor-node-puppeteer-chrome
+FROM apify/actor-node-puppeteer-chrome:latest
 
 USER root
 COPY . /usr/src/app
