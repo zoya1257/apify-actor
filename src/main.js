@@ -8,11 +8,9 @@ import fs from "fs-extra";
 import { Parser as Json2CsvParser } from "json2csv";
 import XLSX from "xlsx";
 
-// ---------- Global ----------
 const jobs = [];
 const date = new Date().toISOString().split("T")[0];
 
-// ---------- Smooth Scroll ----------
 async function smoothScroll(page) {
     await page.evaluate(() => {
         return new Promise(resolve => {
@@ -30,7 +28,6 @@ async function smoothScroll(page) {
     });
 }
 
-// ---------- Extract Jobs ----------
 async function extractJobDetails(page) {
     await page.waitForSelector("ul.jobs-search__results-list", { timeout: 15000 });
 
@@ -44,7 +41,6 @@ async function extractJobDetails(page) {
     );
 }
 
-// ---------- Job Description ----------
 async function scrapeJobPage(page, job) {
     try {
         await page.goto(job.link, { waitUntil: "networkidle2" });
@@ -61,17 +57,14 @@ async function scrapeJobPage(page, job) {
     }
 }
 
-// ---------- Save Files ----------
 function saveJSON(jobs) {
     fs.writeFileSync(`jobs_${date}.json`, JSON.stringify(jobs, null, 2));
-    console.log("JSON saved.");
 }
 
 function saveCSV(jobs) {
     const fields = ["title", "company", "location", "link", "description"];
     const parser = new Json2CsvParser({ fields });
     fs.writeFileSync(`jobs_${date}.csv`, parser.parse(jobs));
-    console.log("CSV saved.");
 }
 
 function saveExcel(jobs) {
@@ -79,10 +72,8 @@ function saveExcel(jobs) {
     const ws = XLSX.utils.json_to_sheet(jobs);
     XLSX.utils.book_append_sheet(wb, ws, "Jobs");
     XLSX.writeFile(wb, `jobs_${date}.xlsx`);
-    console.log("Excel saved.");
 }
 
-// ---------- Request Handler ----------
 const requestHandler = async ({ page, request }) => {
     console.log("Scraping:", request.url);
 
@@ -95,7 +86,6 @@ const requestHandler = async ({ page, request }) => {
         jobs.push(job);
     }
 
-    // Pagination
     const nextBtn = await page.$('button[aria-label="Next"]');
     if (nextBtn) {
         await Promise.all([
@@ -105,17 +95,9 @@ const requestHandler = async ({ page, request }) => {
     }
 };
 
-// ---------- Failed Request Handler ----------
-const failedRequestHandler = async ({ request }) => {
-    console.log(`Request failed: ${request.url}`);
-};
-
-// ---------- RUN AS APIFY ACTOR ----------
 Actor.main(async () => {
-
     const crawler = new PuppeteerCrawler({
         requestHandler,
-        failedRequestHandler,
         maxRequestsPerCrawl: 20,
         requestHandlerTimeoutSecs: 1800,
         navigationTimeoutSecs: 60,
@@ -124,8 +106,6 @@ Actor.main(async () => {
             launcher: puppeteer,
             launchOptions: { headless: true },
         },
-        // 🔥 THIS FIXES STORAGE ERROR 100%
-        storage: await Actor.createStorageClient()
     });
 
     await crawler.run(["https://www.linkedin.com/jobs/search/?keywords=DevOps"]);
