@@ -1,7 +1,3 @@
-// ---------- FIX 0: Crawlee storage fix for Windows ----------
-process.env.CRAWLEE_STORAGE_DIR = './storage-fixed';
-process.env.CRAWLEE_DEFAULT_KV_STORE_ID = 'default';
-
 import path from 'path';
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
