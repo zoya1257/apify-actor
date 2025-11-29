@@ -2,6 +2,7 @@
 process.env.CRAWLEE_STORAGE_DIR = './storage-fixed';
 process.env.CRAWLEE_DEFAULT_KV_STORE_ID = 'default';
 
+import path from 'path';
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 puppeteer.use(StealthPlugin());
@@ -112,13 +113,15 @@ const requestHandler = async ({ page, request }) => {
 async function runScraper() {
     const crawler = new PuppeteerCrawler({
         requestHandler,
+        failedRequestHandler,
         maxRequestsPerCrawl: 20,
         requestHandlerTimeoutSecs: 1800,
         navigationTimeoutSecs: 60,
         launchContext: {
             launcher: puppeteer,
             launchOptions: { headless: true }
-        }
+        },
+        storageDir: path.resolve('/tmp/crawlee_storage')
     });
 
     await crawler.run(['https://www.linkedin.com/jobs/search/?keywords=DevOps']);
