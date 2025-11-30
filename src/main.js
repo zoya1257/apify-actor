@@ -1,17 +1,17 @@
 import { Actor } from "apify";
 import { PuppeteerCrawler } from "crawlee";
-import fs from "fs-extra";
 import { Parser as Json2CsvParser } from "json2csv";
 import XLSX from "xlsx";
 
 const jobs = [];
 const date = new Date().toISOString().split("T")[0];
 
+// ---------- Smooth Scroll ----------
 async function smoothScroll(page) {
     await page.evaluate(() => {
         return new Promise(resolve => {
             let total = 0;
-            let distance = 200;
+            let distance = 300;
             let timer = setInterval(() => {
                 window.scrollBy(0, distance);
                 total += distance;
@@ -19,13 +19,14 @@ async function smoothScroll(page) {
                     clearInterval(timer);
                     resolve();
                 }
-            }, 100);
+            }, 120);
         });
     });
 }
 
+// ---------- Extract Jobs ----------
 async function extractJobDetails(page) {
-    await page.waitForSelector("ul.jobs-search__results-list", { timeout: 15000 });
+    await page.waitForSelector("ul.jobs-search__results-list", { timeout: 30000 });
 
     return await page.$$eval("ul.jobs-search__results-list li", items =>
         items.map(item => ({
@@ -37,10 +38,11 @@ async function extractJobDetails(page) {
     );
 }
 
+// ---------- Job Description ----------
 async function scrapeJobPage(page, job) {
     try {
-        await page.goto(job.link, { waitUntil: "networkidle2" });
-        await page.waitForSelector(".show-more-less-html__markup", { timeout: 15000 });
+        await page.goto(job.link, { waitUntil: "networkidle2", timeout: 60000 });
+        await page.waitForSelector(".show-more-less-html__markup", { timeout: 30000 });
 
         job.description = await page.$eval(".show-more-less-html__markup",
             el => el.innerText.trim()
@@ -53,23 +55,34 @@ async function scrapeJobPage(page, job) {
     }
 }
 
-function saveJSON(jobs) {
-    fs.writeFileSync(`jobs_${date}.json`, JSON.stringify(jobs, null, 2));
+// ---------- SAVE JSON ----------
+async function saveJSON(jobs) {
+    await Actor.setValue(`jobs_${date}.json`, jobs);
 }
 
-function saveCSV(jobs) {
+// ---------- SAVE CSV ----------
+async function saveCSV(jobs) {
     const fields = ["title", "company", "location", "link", "description"];
     const parser = new Json2CsvParser({ fields });
-    fs.writeFileSync(`jobs_${date}.csv`, parser.parse(jobs));
+    const csv = parser.parse(jobs);
+
+    await Actor.setValue(`jobs_${date}.csv`, csv, { contentType: "text/csv" });
 }
 
-function saveExcel(jobs) {
+// ---------- SAVE EXCEL ----------
+async function saveExcel(jobs) {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(jobs);
     XLSX.utils.book_append_sheet(wb, ws, "Jobs");
-    XLSX.writeFile(wb, `jobs_${date}.xlsx`);
+
+    const buffer = XLSX.write(wb, { type: "buffer" });
+
+    await Actor.setValue(`jobs_${date}.xlsx`, buffer, {
+        contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    });
 }
 
+// ---------- Request Handler ----------
 const requestHandler = async ({ page, request }) => {
     console.log("Scraping:", request.url);
 
@@ -86,20 +99,23 @@ const requestHandler = async ({ page, request }) => {
     if (nextBtn) {
         await Promise.all([
             nextBtn.click(),
-            page.waitForNavigation({ waitUntil: "networkidle2" })
+            page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 })
         ]);
     }
 };
 
+// ---------- MAIN ----------
 Actor.main(async () => {
     const crawler = new PuppeteerCrawler({
         requestHandler,
-        maxRequestsPerCrawl: 20,
-        navigationTimeoutSecs: 60,
 
-        // ⭐⭐ MOST IMPORTANT ⭐⭐
+        // Prevent timeout errors
+        requestHandlerTimeoutSecs: 300,
+        navigationTimeoutSecs: 120,
+        maxRequestRetries: 5,
+
         launchContext: {
-            useChrome: true,  // <-- Crawlee ko bol do Apify wala Chrome use kare
+            useChrome: true,
             launchOptions: {
                 headless: true
             }
@@ -108,9 +124,9 @@ Actor.main(async () => {
 
     await crawler.run(["https://www.linkedin.com/jobs/search/?keywords=DevOps"]);
 
-    saveJSON(jobs);
-    saveCSV(jobs);
-    saveExcel(jobs);
+    await saveJSON(jobs);
+    await saveCSV(jobs);
+    await saveExcel(jobs);
 
     console.log(`DONE! Total jobs scraped = ${jobs.length}`);
 });
