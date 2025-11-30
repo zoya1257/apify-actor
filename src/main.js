@@ -106,10 +106,16 @@ const requestHandler = async ({ page, request }) => {
 
 // ---------- MAIN ----------
 Actor.main(async () => {
+
+    // ⭐ ADDING PROXY CONFIGURATION ⭐
+    const proxyConfiguration = await Actor.createProxyConfiguration({
+        groups: ["RESIDENTIAL"], 
+        countryCode: "US"
+    });
+
     const crawler = new PuppeteerCrawler({
         requestHandler,
 
-        // Prevent timeout errors
         requestHandlerTimeoutSecs: 300,
         navigationTimeoutSecs: 120,
         maxRequestRetries: 5,
@@ -117,9 +123,12 @@ Actor.main(async () => {
         launchContext: {
             useChrome: true,
             launchOptions: {
-                headless: true
+                headless: true,
             }
         },
+
+        // ⭐ USE PROXY HERE ⭐
+        proxyConfiguration,
     });
 
     await crawler.run(["https://www.linkedin.com/jobs/search/?keywords=DevOps&refresh=true"]);
