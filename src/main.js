@@ -1,8 +1,4 @@
 import { Actor } from "apify";
-import puppeteer from "puppeteer-extra";
-import StealthPlugin from "puppeteer-extra-plugin-stealth";
-puppeteer.use(StealthPlugin());
-
 import { PuppeteerCrawler } from "crawlee";
 import fs from "fs-extra";
 import { Parser as Json2CsvParser } from "json2csv";
@@ -99,11 +95,14 @@ Actor.main(async () => {
     const crawler = new PuppeteerCrawler({
         requestHandler,
         maxRequestsPerCrawl: 20,
-        requestHandlerTimeoutSecs: 1800,
         navigationTimeoutSecs: 60,
+
+        // ⭐⭐ MOST IMPORTANT ⭐⭐
         launchContext: {
-            launcher: puppeteer,
-            launchOptions: { headless: true },
+            useChrome: true,  // <-- Crawlee ko bol do Apify wala Chrome use kare
+            launchOptions: {
+                headless: true
+            }
         },
     });
 
