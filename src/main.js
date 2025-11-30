@@ -1,58 +1,46 @@
 import { Actor } from "apify";
-import { PuppeteerCrawler } from "crawlee";
+import fetch from "node-fetch";
 import { Parser as Json2CsvParser } from "json2csv";
 import XLSX from "xlsx";
 
+// ---------- GLOBAL ----------
 const jobs = [];
 const date = new Date().toISOString().split("T")[0];
 
-// ---------- Smooth Scroll ----------
-async function smoothScroll(page) {
-    await page.evaluate(() => {
-        return new Promise(resolve => {
-            let total = 0;
-            let distance = 300;
-            let timer = setInterval(() => {
-                window.scrollBy(0, distance);
-                total += distance;
-                if (total >= document.body.scrollHeight) {
-                    clearInterval(timer);
-                    resolve();
-                }
-            }, 120);
-        });
+// ---------- API CALL ----------
+async function fetchJobs(keyword, start = 0) {
+    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${encodeURIComponent(keyword)}&start=${start}`;
+
+    const response = await fetch(url, {
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+        }
     });
+
+    if (!response.ok) return null;
+
+    return await response.text();
 }
 
-// ---------- Extract Jobs ----------
-async function extractJobDetails(page) {
-    await page.waitForSelector("ul.jobs-search__results-list", { timeout: 30000 });
+// ---------- EXTRACT JOBS FROM API HTML ----------
+function parseJobs(html) {
+    const regex = /<li class="result-card.*?<\/li>/gs;
+    const items = html.match(regex) || [];
 
-    return await page.$$eval("ul.jobs-search__results-list li", items =>
-        items.map(item => ({
-            title: item.querySelector("h3")?.innerText.trim() || "",
-            company: item.querySelector("h4")?.innerText.trim() || "",
-            location: item.querySelector(".job-search-card__location")?.innerText.trim() || "",
-            link: item.querySelector("a")?.href || ""
-        }))
-    );
-}
+    return items.map(item => {
+        const get = (regex) => {
+            const match = item.match(regex);
+            return match ? match[1].trim() : "";
+        };
 
-// ---------- Job Description ----------
-async function scrapeJobPage(page, job) {
-    try {
-        await page.goto(job.link, { waitUntil: "networkidle2", timeout: 60000 });
-        await page.waitForSelector(".show-more-less-html__markup", { timeout: 30000 });
-
-        job.description = await page.$eval(".show-more-less-html__markup",
-            el => el.innerText.trim()
-        );
-
-        return job;
-    } catch {
-        job.description = "N/A";
-        return job;
-    }
+        return {
+            title: get(/<h3.*?>(.*?)<\/h3>/s),
+            company: get(/<h4.*?>(.*?)<\/h4>/s),
+            location: get(/job-search-card__location.*?>(.*?)<\/span>/s),
+            link: get(/href="(.*?)"/s),
+            description: ""
+        };
+    });
 }
 
 // ---------- SAVE JSON ----------
@@ -62,10 +50,8 @@ async function saveJSON(jobs) {
 
 // ---------- SAVE CSV ----------
 async function saveCSV(jobs) {
-    const fields = ["title", "company", "location", "link", "description"];
-    const parser = new Json2CsvParser({ fields });
+    const parser = new Json2CsvParser();
     const csv = parser.parse(jobs);
-
     await Actor.setValue(`jobs_${date}.csv`, csv, { contentType: "text/csv" });
 }
 
@@ -74,7 +60,6 @@ async function saveExcel(jobs) {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(jobs);
     XLSX.utils.book_append_sheet(wb, ws, "Jobs");
-
     const buffer = XLSX.write(wb, { type: "buffer" });
 
     await Actor.setValue(`jobs_${date}.xlsx`, buffer, {
@@ -82,60 +67,29 @@ async function saveExcel(jobs) {
     });
 }
 
-// ---------- Request Handler ----------
-const requestHandler = async ({ page, request }) => {
-    console.log("Scraping:", request.url);
-
-    await smoothScroll(page);
-
-    const jobsOnPage = await extractJobDetails(page);
-
-    for (let job of jobsOnPage) {
-        job = await scrapeJobPage(page, job);
-        jobs.push(job);
-    }
-
-    const nextBtn = await page.$('button[aria-label="Next"]');
-    if (nextBtn) {
-        await Promise.all([
-            nextBtn.click(),
-            page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 })
-        ]);
-    }
-};
-
 // ---------- MAIN ----------
 Actor.main(async () => {
+    const keyword = "DevOps"; // Change keyword if needed
 
-    // ⭐ ADDING PROXY CONFIGURATION ⭐
-    const proxyConfiguration = await Actor.createProxyConfiguration({
-        groups: ["RESIDENTIAL"], 
-        countryCode: "US"
-    });
+    console.log("⏳ Fetching jobs…");
 
-    const crawler = new PuppeteerCrawler({
-        requestHandler,
+    // LinkedIn API supports pagination by start=0,25,50...
+    for (let start = 0; start <= 200; start += 25) {
+        const html = await fetchJobs(keyword, start);
 
-        requestHandlerTimeoutSecs: 300,
-        navigationTimeoutSecs: 120,
-        maxRequestRetries: 5,
+        if (!html || html.length < 50) break;
 
-        launchContext: {
-            useChrome: true,
-            launchOptions: {
-                headless: true,
-            }
-        },
+        const pageJobs = parseJobs(html);
+        console.log(`Fetched: ${pageJobs.length} jobs`);
 
-        // ⭐ USE PROXY HERE ⭐
-        proxyConfiguration,
-    });
+        jobs.push(...pageJobs);
+    }
 
-    await crawler.run(["https://www.linkedin.com/jobs/search/?keywords=DevOps&refresh=true"]);
+    console.log(`🔥 Total jobs scraped: ${jobs.length}`);
 
     await saveJSON(jobs);
     await saveCSV(jobs);
     await saveExcel(jobs);
 
-    console.log(`DONE! Total jobs scraped = ${jobs.length}`);
+    console.log("✔ All files saved in Apify storage.");
 });
