@@ -122,7 +122,7 @@ Actor.main(async () => {
         },
     });
 
-    await crawler.run(["https://www.linkedin.com/jobs/search/?keywords=DevOps"]);
+    await crawler.run(["https://www.linkedin.com/jobs/search/?keywords=DevOps&refresh=true"]);
 
     await saveJSON(jobs);
     await saveCSV(jobs);
