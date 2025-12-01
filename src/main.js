@@ -7,7 +7,7 @@ const date = new Date().toISOString().split("T")[0];
 
 // ---- APIFY LINKEDIN SCRAPER CALL ----
 async function fetchJobs(keyword, location, offset) {
-    const run = await Actor.call("apify/linkedin-jobs-scraper", {
+    const run = await Actor.Actor.call("maxcopell/linkedin-jobs-scraper", {
         keyword,
         location,
         offset,
