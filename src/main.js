@@ -1,20 +1,18 @@
 import { Actor } from "apify";
 import { Parser as Json2CsvParser } from "json2csv";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 
 const date = new Date().toISOString().split("T")[0];
 const jobs = [];
 
 // ---------- FETCH JOBS ----------
 async function fetchJobs(keyword, location, offset) {
-    const run = await Actor.start("curious_coder/linkedin-jobs-scraper", {
+    const runData = await Actor.call("curious_coder/linkedin-jobs-scraper", {
         keyword,
         location,
         offset,
         limit: 25,
-    });
-
-    const runData = await Actor.getRun(run.id, { waitForFinish: true });
+    }, { waitForFinish: true });
 
     return runData?.output?.items || [];
 }
