@@ -12,7 +12,7 @@ async function fetchJobs(keyword, location, offset) {
         location,
         offset,
         limit: 25,
-    }, { waitForFinish: true });
+    },
 
     return runData?.output?.items || [];
 }
