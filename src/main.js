@@ -5,9 +5,9 @@ import XLSX from "xlsx";
 const date = new Date().toISOString().split("T")[0];
 const jobs = [];
 
-// -------------- HELPER: CALL APIFY ACTOR ----------------
+// ---------- FETCH JOBS ----------
 async function fetchJobs(keyword, location, offset) {
-    const run = await Actor.start("maxcopell/linkedin-jobs-scraper", {
+    const run = await Actor.start("curious_coder/linkedin-jobs-scraper", {
         keyword,
         location,
         offset,
@@ -19,24 +19,29 @@ async function fetchJobs(keyword, location, offset) {
     return runData?.output?.items || [];
 }
 
-// -------------- SAVE JSON ----------------
+// ---------- SAVE JSON ----------
 async function saveJSON() {
     await Actor.setValue(`jobs_${date}.json`, jobs);
 }
 
-// -------------- SAVE CSV ----------------
+// ---------- SAVE CSV ----------
 async function saveCSV() {
     if (!jobs.length) return;
+
     const parser = new Json2CsvParser();
     const csv = parser.parse(jobs);
-    await Actor.setValue(`jobs_${date}.csv`, csv, { contentType: "text/csv" });
+
+    await Actor.setValue(`jobs_${date}.csv`, csv, {
+        contentType: "text/csv"
+    });
 }
 
-// -------------- SAVE EXCEL ----------------
+// ---------- SAVE EXCEL ----------
 async function saveExcel() {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(jobs);
     XLSX.utils.book_append_sheet(wb, ws, "Jobs");
+
     const buffer = XLSX.write(wb, { type: "buffer" });
 
     await Actor.setValue(`jobs_${date}.xlsx`, buffer, {
@@ -44,7 +49,7 @@ async function saveExcel() {
     });
 }
 
-// -------------- MAIN ----------------
+// ---------- MAIN ----------
 Actor.main(async () => {
     console.log("⏳ Fetching jobs from LinkedIn API…");
 
@@ -56,6 +61,7 @@ Actor.main(async () => {
         console.log(`Fetched batch: ${batch.length}`);
 
         if (!batch.length) break;
+
         jobs.push(...batch);
     }
 
@@ -65,5 +71,5 @@ Actor.main(async () => {
     await saveCSV();
     await saveExcel();
 
-    console.log("✔ DONE — All files saved successfully.");
+    console.log("✔ DONE — all files saved");
 });
