@@ -12,8 +12,8 @@ async function fetchJobs(keyword, location, offset) {
         location,
         offset,
         limit: 25,
-    },
-
+    }),
+        
     return runData?.output?.items || [];
 }
 
